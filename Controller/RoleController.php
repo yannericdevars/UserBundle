@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use DW\UserBundle\Entity\Role;
 use DW\UserBundle\Form\RoleType;
-
+use \DW\UserBundle\Service\UserService;
 /**
  * Role controller.
  *
@@ -22,6 +22,8 @@ class RoleController extends Controller
      */
     public function indexAction()
     {
+        UserService::verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
+        
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('DWUserBundle:Role')->findAll();
@@ -37,6 +39,8 @@ class RoleController extends Controller
      */
     public function showAction($id)
     {
+        UserService::verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('DWUserBundle:Role')->find($id);
@@ -58,6 +62,8 @@ class RoleController extends Controller
      */
     public function newAction()
     {
+        UserService::verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
+        
         $entity = new Role();
         $form   = $this->createForm(new RoleType(), $entity);
 
@@ -73,6 +79,8 @@ class RoleController extends Controller
      */
     public function createAction(Request $request)
     {
+        UserService::verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
+        
         $entity  = new Role();
         $form = $this->createForm(new RoleType(), $entity);
         $form->bind($request);
@@ -97,6 +105,8 @@ class RoleController extends Controller
      */
     public function editAction($id)
     {
+        UserService::verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('DWUserBundle:Role')->find($id);
@@ -121,6 +131,8 @@ class RoleController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
+        UserService::verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('DWUserBundle:Role')->find($id);
@@ -153,6 +165,8 @@ class RoleController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
+        UserService::verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
+        
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
@@ -173,6 +187,8 @@ class RoleController extends Controller
 
     private function createDeleteForm($id)
     {
+        UserService::verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
+        
         return $this->createFormBuilder(array('id' => $id))
             ->add('id', 'hidden')
             ->getForm()

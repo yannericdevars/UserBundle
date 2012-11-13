@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use \DW\UserBundle\Service\PasswordUtilities;
 use \DW\UserBundle\Entity\User;
 use \Symfony\Component\HttpFoundation\Request;
+use \DW\UserBundle\Service\UserService;
 
 class DefaultController extends Controller
 {
@@ -17,6 +18,8 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
+        UserService::verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
+        
         $user = new User();
         
         $form = $this->createFormBuilder($user)->add('email', 'text')->getForm();
@@ -40,6 +43,8 @@ class DefaultController extends Controller
     public function initDatabaseAction()
     {
 
+        UserService::verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
+        
         /*******************************************
          *     Supprime et reconstruit la base
          *******************************************/
@@ -114,6 +119,8 @@ class DefaultController extends Controller
      */
     public function passwordReinitAction($email)
     {
+        UserService::verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
+        
          $User = $this->getDoctrine()->getRepository('DWUserBundle:User')->findOneBy(array('email' => $email));
          
          if (is_object($User))

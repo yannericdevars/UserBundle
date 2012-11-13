@@ -8,7 +8,11 @@ use DW\UserBundle\Entity\User;
 
 class UserService {
     
-
+/**
+ * Désactive un utilisateur
+ * @param type $controler
+ * @param \DW\UserBundle\Entity\User $user
+ */
 public static function desableUser($controler, User $user)
     {
        $entity_manager = $controler->getDoctrine()->getEntityManager();
@@ -17,6 +21,11 @@ public static function desableUser($controler, User $user)
        $entity_manager->flush();
     }
     
+    /**
+     * Active un utilisateur
+     * @param type $controler
+     * @param \DW\UserBundle\Entity\User $user
+     */
 public static function enableUser($controler, User $user)
     {
        $entity_manager = $controler->getDoctrine()->getEntityManager();
@@ -25,6 +34,11 @@ public static function enableUser($controler, User $user)
        $entity_manager->flush();
     }
     
+    /**
+     * Passe un compte à expiré
+     * @param type $controler
+     * @param \DW\UserBundle\Entity\User $user
+     */
 public static function accountExpired($controler, User $user)
     {
        $entity_manager = $controler->getDoctrine()->getEntityManager();
@@ -33,6 +47,11 @@ public static function accountExpired($controler, User $user)
        $entity_manager->flush();
     }
     
+    /**
+     * Passe un compte à non expiré
+     * @param type $controler
+     * @param \DW\UserBundle\Entity\User $user
+     */
 public static function accountNotExpired($controler, User $user)
     {
        $entity_manager = $controler->getDoctrine()->getEntityManager();
@@ -41,6 +60,11 @@ public static function accountNotExpired($controler, User $user)
        $entity_manager->flush();
     }
     
+    /**
+     * Bloque un compte
+     * @param type $controler
+     * @param \DW\UserBundle\Entity\User $user
+     */
 public static function accountLocked($controler, User $user)
     {
        $entity_manager = $controler->getDoctrine()->getEntityManager();
@@ -49,6 +73,11 @@ public static function accountLocked($controler, User $user)
        $entity_manager->flush();
     }
     
+    /**
+     * Débloque un compte
+     * @param type $controler
+     * @param \DW\UserBundle\Entity\User $user
+     */
 public static function accountNotLocked($controler, User $user)
     {
        $entity_manager = $controler->getDoctrine()->getEntityManager();
@@ -57,9 +86,25 @@ public static function accountNotLocked($controler, User $user)
        $entity_manager->flush();
     }
     
-    public static function verify($userAutentif)
+    /**
+     * Vérifie que le compte a le droit
+     * @param table $t_roles Roles du compte
+     * @param table $t_aut_roles Role requis
+     * @throws \Exception
+     */
+    public static function verify($t_roles, $t_aut_roles)
     {
-        $autentif_ok = $userAutentif;
+        $autentif_ok = false;
+        
+        foreach ($t_roles as $roles) 
+        {
+            foreach ($t_aut_roles as $aut_role) {
+                if ($roles == $aut_role)
+                {
+                    $autentif_ok = true;
+                }
+            }
+        }
         
         if (!$autentif_ok)
         {
