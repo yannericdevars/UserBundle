@@ -57,5 +57,15 @@ public static function accountNotLocked($controler, User $user)
        $entity_manager->flush();
     }
     
+    public static function verify($userAutentif)
+    {
+        $autentif_ok = $userAutentif;
+        
+        if (!$autentif_ok)
+        {
+            throw new \Exception('Not connected');
+        }   
+    }      
+    
     
 }
