@@ -1,0 +1,30 @@
+user:
+    pattern:  /
+    defaults: { _controller: "DWUserBundle:User:index" }
+
+user_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "DWUserBundle:User:show" }
+
+user_new:
+    pattern:  /new
+    defaults: { _controller: "DWUserBundle:User:new" }
+
+user_create:
+    pattern:  /create
+    defaults: { _controller: "DWUserBundle:User:create" }
+    requirements: { _method: post }
+
+user_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "DWUserBundle:User:edit" }
+
+user_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "DWUserBundle:User:update" }
+    requirements: { _method: post }
+
+user_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "DWUserBundle:User:delete" }
+    requirements: { _method: post }
