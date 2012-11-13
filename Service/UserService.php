@@ -96,6 +96,12 @@ public static function accountNotLocked($controler, User $user)
     {
         $autentif_ok = false;
         
+        if (count($t_roles) == 0)
+        {
+            throw new \Exception('Not allowed');
+        }
+        
+        
         foreach ($t_roles as $roles) 
         {
             foreach ($t_aut_roles as $aut_role) {
