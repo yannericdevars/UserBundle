@@ -1,7 +1,14 @@
 parameters:
-#    dw_user.example.class: DW\UserBundle\Example
+    userService.class: DW\UserBundle\Service\UserService
+    userService.args: verify
+    passwordUtilities.class: DW\UserBundle\Service\PasswordUtilities
+    passwordUtilities.args: passwordUtilities
 
 services:
-#    dw_user.example:
-#        class: %dw_user.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    userService:
+        class: "%userService.class%"
+        arguments: [%userService.args%]
+    passwordUtilities:
+        class: "%passwordUtilities.class%"
+        arguments: [%passwordUtilities.args%]
+  

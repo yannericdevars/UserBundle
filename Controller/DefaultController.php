@@ -18,7 +18,9 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        UserService::verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
+        
+        $userService = $this->get("userService");
+        $userService->verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
         
         $user = new User();
         
@@ -43,7 +45,8 @@ class DefaultController extends Controller
     public function initDatabaseAction()
     {
 
-        UserService::verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
+        $userService = $this->get("userService");
+        $userService->verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
         
         /*******************************************
          *     Supprime et reconstruit la base
@@ -106,7 +109,8 @@ class DefaultController extends Controller
         $em->persist($user);
         $em->flush();
         
-        PasswordUtilities::insertRandomUsers($this, $this->container->getParameter('email_sender'));
+        $passwordUtilities = $this->get("passwordUtilities");
+        $passwordUtilities->insertRandomUsers($this, $this->container->getParameter('email_sender'));
         
         return $this->render('DWUserBundle:Default:index.html.twig');
           
@@ -119,7 +123,8 @@ class DefaultController extends Controller
      */
     public function passwordReinitAction($email)
     {
-        UserService::verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
+        $userService = $this->get("userService");
+        $userService->verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
         
          $User = $this->getDoctrine()->getRepository('DWUserBundle:User')->findOneBy(array('email' => $email));
          
@@ -128,7 +133,8 @@ class DefaultController extends Controller
             $passw = $User->getPassword();
             
             // Appelle un utilitaire pour redéfinir le mot de passe
-            $passw = PasswordUtilities::generatePassword();
+            $passwordUtilities = $this->get("passwordUtilities");
+            $passw = $passwordUtilities->generatePassword();
             
             $User->setPassword($passw);
             

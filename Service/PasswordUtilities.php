@@ -12,7 +12,7 @@ class PasswordUtilities {
  * @param int $longueur longueur du mot de passe en sortie (par défaut 8)
  * @return string Le mot de passe 
  */
-public static function generatePassword($longueur=8)
+public function generatePassword($longueur=8)
     {
         // ---------------------------------------------------------------------
         //  Générer un mot de passe aléatoire
@@ -54,7 +54,7 @@ public static function generatePassword($longueur=8)
 
     }
     
-    public static function insertRandomUsers($controler, $email)
+    public function insertRandomUsers($controler, $email)
     {
          $entity_manager = $controler->getDoctrine()->getEntityManager();
         for ($i=4; $i<105; $i++)

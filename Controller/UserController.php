@@ -9,7 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use DW\UserBundle\Entity\User;
 use DW\UserBundle\Form\UserType;
-use \DW\UserBundle\Service\UserService;
 
 /**
  * User controller.
@@ -23,8 +22,9 @@ class UserController extends Controller
      */
     public function indexAction()
     {
-         UserService::verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
-         
+        $userService = $this->get("userService");
+        $userService->verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
+        
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('DWUserBundle:User')->findAll();
@@ -40,8 +40,9 @@ class UserController extends Controller
      */
     public function showAction($id)
     {
-         UserService::verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
-         
+        $userService = $this->get("userService");
+        $userService->verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN')); 
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('DWUserBundle:User')->find($id);
@@ -63,8 +64,9 @@ class UserController extends Controller
      */
     public function newAction()
     {
-         UserService::verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
-         
+        $userService = $this->get("userService");
+        $userService->verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
+        
         $entity = new User();
         $form   = $this->createForm(new UserType(), $entity);
 
@@ -80,8 +82,9 @@ class UserController extends Controller
      */
     public function createAction(Request $request)
     {
-         UserService::verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
-         
+        $userService = $this->get("userService");
+        $userService->verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN')); 
+        
         $entity  = new User();
         $form = $this->createForm(new UserType(), $entity);
         $form->bind($request);
@@ -106,8 +109,9 @@ class UserController extends Controller
      */
     public function editAction($id)
     {
-         UserService::verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
-         
+        $userService = $this->get("userService");
+        $userService->verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('DWUserBundle:User')->find($id);
@@ -132,8 +136,9 @@ class UserController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
-         UserService::verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
-         
+        $userService = $this->get("userService");
+        $userService->verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
+        
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('DWUserBundle:User')->find($id);
@@ -166,8 +171,9 @@ class UserController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-         UserService::verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
-         
+        $userService = $this->get("userService");
+        $userService->verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
+        
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
@@ -188,8 +194,9 @@ class UserController extends Controller
 
     private function createDeleteForm($id)
     {
-         UserService::verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
-         
+        $userService = $this->get("userService");
+        $userService->verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
+        
         return $this->createFormBuilder(array('id' => $id))
             ->add('id', 'hidden')
             ->getForm()

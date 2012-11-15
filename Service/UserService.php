@@ -92,7 +92,7 @@ public static function accountNotLocked($controler, User $user)
      * @param table $t_aut_roles Role requis
      * @throws \Exception
      */
-    public static function verify($t_roles, $t_aut_roles)
+    public function verify($t_roles, $t_aut_roles)
     {
         $autentif_ok = false;
         
