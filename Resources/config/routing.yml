@@ -10,4 +10,8 @@ dw_password_reinit_post:
     pattern:  /pass/reinit
     defaults: { _controller: DWUserBundle:Default:passwordReinitPost }
     
+dw_user_login:
+    pattern:  /login
+    defaults: { _controller: DWUserBundle:Default:login }
+    
 

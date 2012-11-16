@@ -172,6 +172,8 @@ class User
     {
         $this->password = $password;
         $this->setEncryptedPassword($password);
+        
+        $this->password = 'XXX Encrypted XXX';
     
         return $this;
     }
