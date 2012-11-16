@@ -5,10 +5,8 @@
 namespace DW\UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use \DW\UserBundle\Service\PasswordUtilities;
 use \DW\UserBundle\Entity\User;
 use \Symfony\Component\HttpFoundation\Request;
-use \DW\UserBundle\Service\UserService;
 
 class DefaultController extends Controller
 {
@@ -38,83 +36,6 @@ class DefaultController extends Controller
             'form' => $form->createView()));
     }
     
-    /**
-     * Initialise la base de données
-     * @return type
-     */
-    public function initDatabaseAction()
-    {
-
-        $userService = $this->get("userService");
-        $userService->verify($this->getRequest()->getSession()->get('userAutentif'), array('SUPER-ADMIN'));
-        
-        /*******************************************
-         *     Supprime et reconstruit la base
-         *******************************************/
-        $kernel = $this->get('kernel');
-        $application = new \Symfony\Bundle\FrameworkBundle\Console\Application($kernel);
-        $application->setAutoExit(false);
-        //DROP le Schema 
-        $options = array('command' => 'doctrine:schema:drop',"--force" => true);
-        $application->run(new \Symfony\Component\Console\Input\ArrayInput($options));
-        //CREATE le Schema 
-        $options = array('command' => 'doctrine:schema:update',"--force" => true);
-        $application->run(new \Symfony\Component\Console\Input\ArrayInput($options));
-        
-        
-        /*******************************************
-         *         Initialise les valeurs
-         *******************************************/
-        
-        // Initialise les utilisateurs        
-        $super_admin = new \DW\UserBundle\Entity\User();        
-        $super_admin->setUsername('superadmin');
-        $super_admin->setEmail($this->container->getParameter('email_sender'));
-        $super_admin->setPassword('superadminpass');
-        
-        $admin = new \DW\UserBundle\Entity\User();        
-        $admin->setUsername('admin');
-        $admin->setEmail($this->container->getParameter('email_sender').'2');
-        $admin->setPassword('adminpass');
-                
-        $user = new \DW\UserBundle\Entity\User();        
-        $user->setUsername('user');
-        $user->setEmail($this->container->getParameter('email_sender').'3');
-        $user->setPassword('userpass');
-        
-        // initialise les roles
-        $role = new \DW\UserBundle\Entity\Role();
-        $role->setName('SUPER-ADMIN');
-        $role->setDesciption("Super administrateur : possède tous les droits");
-        
-        $role2 = new \DW\UserBundle\Entity\Role();
-        $role2->setName('ADMIN');
-        $role2->setDesciption("Administrateur : possède les droits d'administration");
-        
-        $role3 = new \DW\UserBundle\Entity\Role();
-        $role3->setName('USER');
-        $role3->setDesciption("Utilisateur : possède les droits d'utilisateur");
-        
-        // Assigne les roles aux utilisateurs
-        $super_admin->addRole($role);
-        $super_admin->addRole($role2);
-        $admin->addRole($role2);        
-        $user->addRole($role3);
-        
-        $em = $this->getDoctrine()->getEntityManager();
-        
-        //Persistance
-        $em->persist($super_admin);
-        $em->persist($admin);
-        $em->persist($user);
-        $em->flush();
-        
-        $passwordUtilities = $this->get("passwordUtilities");
-        $passwordUtilities->insertRandomUsers($this, $this->container->getParameter('email_sender'));
-        
-        return $this->render('DWUserBundle:Default:index.html.twig');
-          
-    }
     
     /**
      * Permet de recréer un mot de passe et de l'envoyer par e-mail

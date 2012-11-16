@@ -2,10 +2,6 @@ dw_user_homepage:
     pattern:  /hello
     defaults: { _controller: DWUserBundle:Default:index }
     
-dw_init_database:
-    pattern:  /init
-    defaults: { _controller: DWUserBundle:Default:initDatabase }
-    
 dw_password_reinit:
     pattern:  /pass/{email}
     defaults: { _controller: DWUserBundle:Default:passwordReinit }
