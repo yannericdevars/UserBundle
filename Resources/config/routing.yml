@@ -14,4 +14,12 @@ dw_user_login:
     pattern:  /login
     defaults: { _controller: DWUserBundle:Default:login }
     
+dw_user_role:
+    resource: "@DWUserBundle/Resources/config/routing/role.yml"
+    prefix:   /role
+    
+dw_user:
+    resource: "@DWUserBundle/Resources/config/routing/user.yml"
+    prefix:   /user
+    
 
